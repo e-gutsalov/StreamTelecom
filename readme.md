@@ -1,6 +1,8 @@
 # Stream Telecom
 
-В index.php приведено два варианта получения масок:
+## В index.php приведено два варианта получения масок:
+
+### Вариант 1
 
         for ($ii = 3; $ii <= $max; $ii++) {
             for ($i = $first; $i <= $last; $i++) {
@@ -8,6 +10,8 @@
                 $arr[$data[4]]['7' . $str] = null;
             }
         }
+
+### Вариант 2
 
         $str = "$first-$last";
         for ($ii = 3; $ii <= $max; $ii++) {
