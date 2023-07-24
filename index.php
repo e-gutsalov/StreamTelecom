@@ -1,6 +1,6 @@
 <?php
 
-$stream = @fopen('DEF-9xx.csv', 'r');
+$stream = @fopen('DEF-9xx_.csv', 'r');
 
 if ($stream === false) {
     echo "Файл не найден\n";
@@ -9,6 +9,7 @@ if ($stream === false) {
 $arr = [];
 $result = [];
 $flag = true;
+
 while (($data = @fgetcsv($stream, 200, ';')) !== false) {
 
     if($flag) {
@@ -20,39 +21,39 @@ while (($data = @fgetcsv($stream, 200, ';')) !== false) {
         if (!isset($arr[$data[4]])) {
             $arr[$data[4]] = null;
         }
-//        $arr[$data[4]]['7' . $data[0]] = null;
-
 
         $first = (int)($data[0] . $data[1]);
         $last = (int)($data[0] . $data[2]);
 
-//        $first = rtrim(($data[0] . $data[1]), '0');
+        $start = strlen(rtrim(($data[0] . $data[1]), '0'));
         $end = strlen(rtrim(($data[0] . $data[2]), '9'));
 
-//        var_dump($first, $last);
-//        var_dump(strlen($end) - 1);
+        $max = max($start, $end);
 
-        for ($ii = 3; $ii <= $end; $ii++) {
-
+        for ($ii = 3; $ii <= $max; $ii++) {
             for ($i = $first; $i <= $last; $i++) {
-
                 $str = substr($i, 0, $ii);
-
                 $arr[$data[4]]['7' . $str] = null;
             }
         }
 
+// TODO реализация через регулярное выражение, работает медленно
+
+//        $str = "$first-$last";
+//        for ($ii = 3; $ii <= $max; $ii++) {
+//            for ($i = $first; $i <= $last; $i++) {
+//                preg_match("/^([$str]{0,$ii})\d+$/", $i, $matches);
+//                $arr[$data[4]]['7' . $matches[1]] = null;
+//            }
+//        }
+
         foreach ($arr as $key => $item) {
             $result[$key] = array_keys($item);
         }
-    }
 
-//    error_log(print_r($arr, true), 3, 'log.log');
-//    print_r($arr);
-//    exit();
+    }
 }
+
 error_log(print_r($result, true), 3, 'log.log');
-//error_log(print_r($arr), 3, 'log.log');
-//print_r($arr);
 
 fclose($stream);
