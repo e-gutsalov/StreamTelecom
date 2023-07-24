@@ -1,6 +1,6 @@
 <?php
 
-$stream = @fopen('DEF-9xx_.csv', 'r');
+$stream = @fopen('DEF-9xx.csv', 'r');
 
 if ($stream === false) {
     echo "Файл не найден\n";
