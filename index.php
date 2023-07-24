@@ -11,7 +11,6 @@ $result = [];
 $flag = true;
 
 while (($data = @fgetcsv($stream, 200, ';')) !== false) {
-
     if($flag) {
         $flag = false;
         continue;
@@ -25,10 +24,10 @@ while (($data = @fgetcsv($stream, 200, ';')) !== false) {
         $first = (int)($data[0] . $data[1]);
         $last = (int)($data[0] . $data[2]);
 
-        $start = strlen(rtrim(($data[0] . $data[1]), '0'));
-        $end = strlen(rtrim(($data[0] . $data[2]), '9'));
+        $start = rtrim(($data[0] . $data[1]), '0');
+        $end = rtrim(($data[0] . $data[2]), '9');
 
-        $max = max($start, $end);
+        $max = max(strlen($start), strlen($end));
 
         for ($ii = 3; $ii <= $max; $ii++) {
             for ($i = $first; $i <= $last; $i++) {
@@ -50,7 +49,6 @@ while (($data = @fgetcsv($stream, 200, ';')) !== false) {
         foreach ($arr as $key => $item) {
             $result[$key] = array_keys($item);
         }
-
     }
 }
 
